@@ -9,6 +9,29 @@ public:
 		sAppName = "PONG";
 	}
 
+	// TODO: Make methods for each code section
+
+	// Draw Title Screen
+	void drawTitleScreen()
+	{
+		Clear(olc::BLACK);
+
+		DrawString(184, 100, "PONG", olc::WHITE, 3);
+		DrawString(154, 140, "Press Enter To Start", olc::WHITE, 1);
+		if (GetKey(olc::ENTER).bPressed)
+			start = true;
+	}
+
+	// Draw Game Board
+
+	// User Input
+
+	// Detect Collision
+
+	// Check Win Lose
+
+	// Return to Title
+
 private:
 	//Paddles
 	float fPaddleOnePos = 100.0f;
@@ -41,12 +64,14 @@ public:
 		// Draw Display--------------------------------------------------------
 
 		
-		Clear(olc::BLACK);
+		/*Clear(olc::BLACK);
 
 		DrawString(184, 100, "PONG", olc::WHITE, 3);
 		DrawString(154, 140, "Press Enter To Start", olc::WHITE, 1);
 		if (GetKey(olc::ENTER).bPressed)
-			start = true;
+			start = true;*/
+
+		drawTitleScreen();
 
 		if (start)
 		{
@@ -88,13 +113,26 @@ public:
 			if (fPaddleOnePos + 40 > float(ScreenHeight()) - 10.f)
 				fPaddleOnePos = float(ScreenHeight()) - 10.0f - 40;
 
-			//User Input Padle Two
-			if (GetKey(olc::Key::DOWN).bHeld)
+			
+			// Computer player AI, moves the paddle up and down based on the y position of the ball, only moves when the ball is on 
+			// the computer's side of the court
+
+			//I need to find a better way to balance things, maybe change the velocity of the ball when it hits the edge of the paddle
+			// or maybe have the computer not move at some points and move quicker at other points
+
+			if (vBall.y > (fPaddleTwoPos + 40 / 2) && vBall.x >= 240.0f && (rand() % 5 + 1) == 1)
 				fPaddleTwoPos += fPaddleSpeed * fElapsedTime;
-			if (GetKey(olc::Key::UP).bHeld)
+
+			if (vBall.y < (fPaddleTwoPos + 40 / 2) && vBall.x >= 240.0f && (rand() % 5 + 1) == 1)
 				fPaddleTwoPos -= fPaddleSpeed * fElapsedTime;
 
-			// Collision-----------------------------------------------------------
+
+
+			//User Input Padle Two
+			/*if (GetKey(olc::Key::DOWN).bHeld)
+				fPaddleTwoPos += fPaddleSpeed * fElapsedTime;
+			if (GetKey(olc::Key::UP).bHeld)
+				fPaddleTwoPos -= fPaddleSpeed * fElapsedTime;*/
 
 			// Top Paddle Two Boundary
 			if (fPaddleTwoPos < 10.0f)
@@ -102,6 +140,8 @@ public:
 			// Bottom Paddle Two Boundary
 			if (fPaddleTwoPos + 40 > float(ScreenHeight()) - 10.f)
 				fPaddleTwoPos = float(ScreenHeight()) - 10.0f - 40;
+
+			// Collision-----------------------------------------------------------
 
 			//Update ball
 			vBall += vBallVel * fElapsedTime;
@@ -180,6 +220,8 @@ public:
 		return true;
 	}
 };
+
+
 
 int main()
 {
